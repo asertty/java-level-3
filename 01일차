@@ -1,0 +1,116 @@
+문제 많음
+
+package _0604;
+
+public class Hero {
+	String 이름;
+	int 공격력;
+	int 체력;
+	int 방어력;
+	
+	
+	public String get이름() {
+		return 이름;
+	}
+
+	public void set이름(String 이름) {
+		this.이름 = 이름;
+	}
+
+	public int get공격력() {
+		return 공격력;
+	}
+
+	public void set공격력(int 공격력) {
+		this.공격력 = 공격력;
+	}
+
+	public int get체력() {
+		return 체력;
+	}
+
+	public void set체력(int 체력) {
+		this.체력 = 체력;
+	}
+
+	public int get방어력() {
+		return 방어력;
+	}
+
+	public void set방어력(int 방어력) {
+		this.방어력 = 방어력;
+	}
+
+	Hero(String 이름, int 공격력, int 체력, int 방어력){
+		this.이름 = 이름;
+		this.공격력 = 공격력;
+		this.체력 = 체력;
+		this.방어력 = 방어력;
+	}
+	
+	Hero(String 이름){
+		this(이름, 20, 100, 10);
+/*		this.이름 = 이름;
+		this.공격력 = 20;
+		this.체력 = 100;
+		this.방어력 = 10;*/
+	}
+	
+	void 공격(Hero 적) {
+		System.out.printf("%s이 %s를 공격합니다.", 이름, 적.이름);
+		적.체력 = 적.체력 - (공격력 - 적.방어력);
+	}
+	
+	void 크리공격(Hero 적) {
+		System.out.printf("%s이 %s에게 크리티컬 공격", 이름, 적.이름);
+		적.체력 = 적.체력 - (공격력*2);
+	}
+	
+	void 명상() {
+		System.out.printf("%s이 명상합니다", 이름);
+		체력 += 20;
+	}
+	
+}
+
+
+package _0604;
+
+import java.util.Random;
+import java.util.Scanner;
+
+public class Main {
+
+	public static void main(String[] args) {
+			Hero hero  = new Hero("히어로");
+			Hero enemy = new Hero("탈주닌자", 10, 80, 20);
+			
+			Scanner sc = new Scanner(System.in);
+			Random rd = new Random();
+			
+			int 카운트 = 0;
+			
+			while(true) {
+				//공격 50% 크리공격 20% 명상 30% 
+				카운트 ++;
+				System.out.printf("%d턴, 현재 적의 체력 : %d \n", 카운트, enemy.get체력());
+				System.out.printf("아무키나 누르시오.");
+				sc.next();
+				int 랜덤 = rd.nextInt(10);
+				
+				if(랜덤 < 5) {
+					hero.공격(enemy);
+				}else if(랜덤 < 7) {
+					hero.크리공격(enemy);
+				}else {
+					hero.명상();
+				}
+				
+				if(enemy.get체력() <= 0) {
+					System.out.printf("%d 턴만에 끝", 카운트);
+					break;
+				}
+			}
+	}
+
+}
