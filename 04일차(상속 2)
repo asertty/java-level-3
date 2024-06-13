@@ -1,0 +1,82 @@
+package Main;
+
+public class PhoneMain {
+
+	public static void main(String[] args) {
+		SmartPhone 결 = new SmartPhone("갤럭시", "은색");
+		
+		System.out.println("모델: " + 결.모델);
+		System.out.println("색상: " + 결.색상);
+		
+		결.set와이파이(true);
+		System.out.println("와이파이 상태: " + 결.와이파이);
+		
+		결.종();
+		결.음성보내기("통신보안");
+		결.음성받기("여보세요.");
+		결.끊기();
+	}
+
+}
+
+package Main;
+
+public class Phone {
+	 public String 모델;
+	 public String 색상;
+	 
+//	 Phone(String 모델, String 색상){
+//		System.out.println("Phone() 생성자 실행");
+//	 	this.모델 = 모델;
+//		this.색상 = 색상;
+//	 }
+
+	 Phone(){
+		 System.out.println("Phone() 생성자 실행");
+	 }
+	 
+	 public void 종() {
+		System.out.println("벨이 울립니다.");
+	}
+	 
+	 public void 음성보내기(String 메세지) {
+		System.out.println("자기: " + 메세지);
+	}
+	 
+	 public void 음성받기(String 메세지) {
+		System.out.println("상대방:" + 메세지);
+	}
+	 
+	 public void 끊기() {
+		System.out.println("전화를 끊습니다.");
+	}
+	 
+}
+
+
+package Main;
+
+public class SmartPhone extends Phone{
+	public boolean 와이파이;
+
+	public SmartPhone(String 모델, String 색상) {
+	//  super(모델, 생삭);
+		this.모델 = 모델;
+		this.색상 = 색상;
+	}
+	
+	public void set와이파이(boolean 와이파이) {
+		this.와이파이 = 와이파이;
+		System.out.println("와이파이 상태를 변경");
+	}
+	
+	public void 인터넷() {
+		System.out.println("인터넷에 연결합니다.");
+	}
+	
+	@Override
+	public void 종() {
+		super.종();
+		System.out.println("진동");
+	}
+}
