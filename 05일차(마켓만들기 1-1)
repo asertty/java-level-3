@@ -1,0 +1,96 @@
+package Main;
+
+public class Market {
+	
+	String 마켓이름;
+	Item[] 물건 = new Item[3]; 
+	//물건[0] = new Item("사과", 2000, 20);
+	
+	public Market(String 마켓이름) {
+		this.마켓이름 = 마켓이름;
+		
+		물건[0] = new Item("사과", 2000, 20);
+		물건[1] = new Item("오렌지", 1000, 100);
+		물건[2] = new Item("생선", 5000, 30);
+	}	
+	
+	void 판매() {
+		
+	}
+	
+
+	void 재고관리() {
+		
+	}
+	
+	void 재고현황() {
+		System.out.println("현재 재고는. . ."+Item.물건명번호+" 가지의 물건이 있습니다.");
+		
+		for(Item i : 물건) {
+			if(i == null) break;
+			System.out.println(i.물건번호);
+			System.out.println(i.get물건명());
+			System.out.println(i.get가격());
+			System.out.println(i.get재고());
+			
+		}
+	}
+}
+
+
+package Main;
+
+public class Item {
+	
+	static int 물건명번호;
+	int 물건번호 = ++물건명번호;
+	private String 물건명;
+	private int 가격;
+	private int 재고;
+	
+	public Item(String 물건명, int 가격, int 재고) {
+		this.물건명 = 물건명;
+		this.가격 = 가격;
+		this.재고 = 재고;
+	}
+	public String get물건명() {
+		return 물건명;
+	}
+	public void set물건명(String 물건명) {
+		this.물건명 = 물건명;
+	}
+	public int get가격() {
+		return 가격;
+	}
+	public void set가격(int 가격) {
+		this.가격 = 가격;
+	}
+	public int get재고() {
+		return 재고;
+	}
+	public void set재고(int 재고) {
+		this.재고 = 재고;
+	}
+	
+	void 정보출력() {	
+		System.out.println("물건번호: " + 물건번호);
+		System.out.println("물건명: " + 물건명);
+		System.out.println("가격: " + 가격 + " 원");
+		System.out.println("재고: " + 재고 + "개");
+	}
+
+}
+
+package Main;
+
+public class MarketMain {
+
+	public static void main(String[] args) {
+		Market m1 = new Market("결용품마켓"); 
+		
+		System.out.println(m1.마켓이름);
+		System.out.println(m1.물건[0].get물건명());
+		System.out.println(Item.물건명번호);
+	}
+
+}
