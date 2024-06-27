@@ -1,0 +1,257 @@
+package Main;
+import java.util.Scanner;
+
+public class Market {
+	
+	String 마켓이름;
+	Item[] 물건 = new Item[3]; 
+	//물건[0] = new Item("사과", 2000, 20);
+	Scanner sc = new Scanner(System.in);// 대문자로 시작 참조변수
+	
+	public Market(String 마켓이름) {
+		this.마켓이름 = 마켓이름;
+		
+		물건[0] = new Item("사과", 2000, 20);
+		물건[1] = new Item("오렌지", 1000, 100);
+		물건[2] = new Item("생선", 5000, 30);
+	}	
+	
+	void 판매(Customer 손님) {
+		System.out.printf("물건 구매 페이지입니다!");
+		System.out.printf("구매할 물건을 선택하시오.");
+		
+		for(Item i : 물건) {
+			if(i == null) {
+				System.out.println(">");
+				break;
+			}
+			System.out.printf("%d.%s  ", i.물건번호, i.get물건명());
+		}
+		
+		int 구매번호 = sc.nextInt();
+		
+		if(구매번호 <= Item.물건명번호) {
+			//몇개를 살건지 입력
+			Item 구매물건 = 물건[구매번호-1];
+			System.out.printf("%s 몇개? ->", 구매물건.get물건명());
+			int 몇개 = sc.nextInt();
+			//구매물건 = Item("사과", 2000, 20);
+			int 금액 = 구매물건.get가격() * 몇개;
+			
+			if(금액 <= 손님.get돈()) {
+				//마켓에 있는 물건 빠지고 
+				int 새로운재고 = 구매물건.get재고()-몇개;
+				구매물건.set재고(새로운재고);
+				
+				//장바구니에 선택한 물건 추가
+				Item 산물건 = new Item(구매물건.get물건명(), 구매물건.get가격(), 몇개);
+				Item.물건명번호--;
+				
+				손님.set인벤토리(산물건);
+				
+			}else {
+				System.out.println("돈없으면 나가시오.");
+			}
+		}else {
+			System.out.println("물건명 번호를 잘못 입력하였습니다.");
+		}
+		
+	}
+	
+
+	void 재고관리() {
+		System.out.println("재고관리 페이지입니다!");
+		int 메뉴;
+		boolean 진행 = true;
+		
+		while(진행) {
+			System.out.print("메뉴를 선택하시오. 1.재고현황  2. 재고수정  3. 종료");
+			메뉴 = sc.nextInt();
+			
+		switch (메뉴) {
+		case 1: {
+			재고현황();
+			break;
+		}
+		case 2: {
+			System.out.println("수정할 물건을 선택하시오.");
+			//ex) 1.사과, 2.오렌지, 3.생선(for-each 활용)
+			
+			for(Item i : 물건) {
+				if(i == null) {
+					System.out.println(">");
+					break;
+				}
+				System.out.printf("%d.%s  ", i.물건번호, i.get물건명());
+			}
+			메뉴 = sc.nextInt();
+			
+			Item 수정물건 = 물건[메뉴-1];
+			
+			System.out.printf("%s 재고 수정 페이지입니다!(수정할 항목 선택)", 수정물건.get물건명());
+			System.out.printf("1.물건명  2.가격  3.재고  4.종료");
+			
+			int 수정항목 = sc.nextInt();
+			
+			switch (수정항목) {
+			case 1: {
+				System.out.printf("물건명의 현재값: %s, 수정할 물건명", 수정물건.get물건명());
+				String 수정할물건명 = sc.next();
+				수정물건.set물건명(수정할물건명);
+				break;
+			}
+			case 2: {
+				System.out.printf("물건명의 현재값: %s, 수정할 물건명", 수정물건.get가격());
+				수정물건.set가격(sc.nextInt());
+				break;
+			}
+			case 3: {
+				System.out.printf("물건명의 현재값: %s, 수정할 물건명", 수정물건.get재고());
+				수정물건.set재고(sc.nextInt());
+				break;
+			}
+			case 4: {
+				System.out.println("수정을 종료합니다!");
+				break;
+			}
+			
+			default:
+				System.out.println("값 오류");
+			}
+		}
+		case 3: {
+			진행 = false;
+			break;
+		}
+
+		default:
+			System.out.println("다시 입력하시오.");
+			}
+		}
+	}
+	
+	
+	void 재고현황() {
+		System.out.println("현재 재고는. . ."+Item.물건명번호+" 가지의 물건이 있습니다.");
+		
+		for(Item i : 물건) {
+			// i = 물건[0] -> Item("사과", 2000, 20)
+			if(i == null) break;
+			System.out.println(i.물건번호);
+			System.out.println(i.get물건명());
+			System.out.println(i.get가격());
+			System.out.println(i.get재고());
+			
+		}
+	}
+}
+
+package Main;
+
+public class MarketMain {
+
+	public static void main(String[] args) {
+		Market m1 = new Market("결용품마켓"); 
+		Customer 고객1 = new Customer("모지리 결", 10000);
+		
+		System.out.println(m1.마켓이름);
+		System.out.println(m1.물건[0].get물건명());
+		System.out.println(Item.물건명번호);
+		m1.재고현황();
+		
+		m1.판매(고객1);
+		고객1.자기소개();
+	}
+
+}
+
+package Main;
+
+public class Customer {
+	private String 이름;
+	private int 돈;
+	private Item[] 인벤토리;
+	private int 물건개수;
+	
+	public Customer(String 이름, int 돈) {
+		this.이름 = 이름;
+		this.돈 = 돈;
+		this.인벤토리 = new Item[2];
+		this.물건개수 = 0;
+	}
+	
+	public String get이름() {
+		return 이름;
+	}
+	public void set이름(String 이름) {
+		this.이름 = 이름;
+	}
+	public int get돈() {
+		return 돈;
+	}
+	public void set돈(int 돈) {
+		this.돈 = 돈;
+	}
+	public Item[] get인벤토리() {
+		return 인벤토리;
+	}
+	public void set인벤토리(Item 인벤토리) {
+		물건개수++;
+		this.인벤토리[물건개수] = 인벤토리;
+	}
+
+	
+	void 자기소개() {
+		System.out.printf("이름: %s  돈: %d \n", 이름, 돈);
+		System.out.printf("인벤토리: ");
+		
+		for(Item i : 인벤토리) {
+			System.out.printf("%s ", i);
+		}
+		System.out.println();
+	}
+	
+}
+
+package Main;
+
+public class Item {
+	
+	static int 물건명번호;
+	int 물건번호 = ++물건명번호;
+	private String 물건명;
+	private int 가격;
+	private int 재고;
+	
+	public Item(String 물건명, int 가격, int 재고) {
+		this.물건명 = 물건명;
+		this.가격 = 가격;
+		this.재고 = 재고;
+	}
+	public String get물건명() {
+		return 물건명;
+	}
+	public void set물건명(String 물건명) {
+		this.물건명 = 물건명;
+	}
+	public int get가격() {
+		return 가격;
+	}
+	public void set가격(int 가격) {
+		this.가격 = 가격;
+	}
+	public int get재고() {
+		return 재고;
+	}
+	public void set재고(int 재고) {
+		this.재고 = 재고;
+	}
+	
+	void 정보출력() {	
+		System.out.println("물건번호: " + 물건번호);
+		System.out.println("물건명: " + 물건명);
+		System.out.println("가격: " + 가격 + " 원");
+		System.out.println("재고: " + 재고 + "개");
+	}
+
+}
