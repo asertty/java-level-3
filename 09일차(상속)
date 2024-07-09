@@ -1,0 +1,142 @@
+package Main;
+
+public class Main {
+
+	public static void main(String[] args) {
+//		Student 학생 = new Student(21111, "SW개발과", "ㅇㅇㅇ");
+//		Student1 학생2 = new Student1(11111, "sw개발과","ㄱㄱㄱ");
+//		Student2 학생3 = new Student2(21111, "sw개발과","ㅇㅇㅇ");
+//		Student3 학생4 = new Student3(31111, "스마트과","ㅁㅁㅁ");
+
+		Student[] 학생들 = { new Student1(11111, "sw개발과","ㄱㄱㄱ"),
+		 					new Student2(21111, "sw개발과","ㅇㅇㅇ"),
+		 					new Student3(31111, "스마트과","ㅁㅁㅁ")
+							};
+		
+		for(Student i : 학생들) {
+			i.자기소개();
+		}
+		
+//		학생.자기소개();
+//		학생2.자격증();
+//		학생3.자기소개();
+//		학생4.자기소개();
+//		학생4.취업();
+//		학생4.자기소개();
+
+		
+	}
+
+}
+
+package Main;
+
+public class Student {
+
+	private int 학번;
+	private String 학과;
+	private String 이름;
+	
+	Student(int 학번, String 학과, String 이름) {
+		this.학번 = 학번;
+		this.학과 = 학과;
+		this.이름 = 이름;
+	}
+
+	 
+	public int get학번() {
+		return 학번;
+	}
+	public void set학번(int 학번) {
+		this.학번 = 학번;
+	}
+	public String get학과() {
+		return 학과;
+	}
+	public void set학과(String 학과) {
+		this.학과 = 학과;
+	}
+	public String get이름() {
+		return 이름;
+	}
+	public void set이름(String 이름) {
+		this.이름 = 이름;
+	}
+	
+	
+	
+	protected void 자기소개() {
+		System.out.printf("%s의 자기소개 \n", 이름);
+		System.out.printf("학번: %d / 학과: %s \n",학번, 학과);
+	}
+}
+
+package Main;
+
+public class Student1 extends Student {
+	
+	protected boolean 영교시;
+	
+	Student1(int 학번, String 학과, String 이름) {
+		super(학번, 학과, 이름);
+		영교시 = true;
+	}
+	
+	@Override
+	protected void 자기소개() {
+		super.자기소개();
+		if(영교시 == true)
+		System.out.printf("1학년이라서 0교시 합니다.\n");
+	}
+	
+	protected void 자격증() {
+		System.out.println("저는 ITQ 한글, 엑셀, 파포, 컴활 자격증를 취득했습니다.");
+	}
+	
+}
+
+package Main;
+
+public class Student2 extends Student1{
+
+	Student2(int 학번, String 학과, String 이름) {
+		super(학번, 학과, 이름);
+		영교시 = false;
+	}
+
+	@Override
+	protected void 자기소개() {
+		super.자기소개();
+		System.out.println("저는 2학년이라 도제면접을 준비합니다.");
+	}
+	protected void 정산기() {
+		System.out.println("정보처리 산업기사를 준비합니다.");
+	}
+	
+}
+
+package Main;
+
+public class Student3 extends Student2{
+
+	boolean 취업여부 = true;
+	
+	Student3(int 학번, String 학과, String 이름) {
+		super(학번, 학과, 이름);
+		취업여부 = !취업여부;
+	}
+	
+	@Override
+	protected void 자기소개() {
+		super.자기소개();
+		if(취업여부 == false) {
+			System.out.println("저는 대학갈래요.");
+		}
+	}
+	
+	protected void 취업() {
+		System.out.println("저는 취업했어요!");
+		취업여부 = true;
+	}
+
+}
