@@ -1,0 +1,130 @@
+package Main;
+
+public class Main {
+
+	public static void main(String[] args) {
+		SmartPhone[] 폰가방 = {
+				new Iphone(50, "아이폰 14", "블랙", "얼굴"),
+				new Samsung(50, "s24", "화이트", "카드")
+		};
+		
+		for(SmartPhone s : 폰가방) {
+			s.자기소개();
+			s.전원켜기();
+			s.set볼륨(100);
+		}
+		
+	}
+
+}
+
+package Main;
+
+public abstract class SmartPhone implements Fingerprint{
+	
+	int 볼륨;
+	String 모델명;
+	String 색상;
+	
+	public SmartPhone(int 볼륨, String 모델명, String 색상) {
+		this.볼륨 = 볼륨;
+		this.모델명 = 모델명;
+		this.색상 = 색상;
+	}
+	
+	void 자기소개() {
+		System.out.printf("모델명: %s, 색상: %s, 볼륨: %d", 모델명, 색상, 볼륨);
+	}
+	
+	abstract void 전원켜기();
+	abstract void 전원끄기();
+	abstract void set볼륨(int 볼륜);
+	
+}
+
+package Main;
+
+public class Iphone extends SmartPhone{
+
+	String 얼굴정보;
+	
+	public Iphone(int 볼륨, String 모델명, String 색상, String 얼굴정보) {
+		super(볼륨, 모델명, 색상);
+		this.얼굴정보 = 얼굴정보;
+	}
+
+	@Override
+	void 전원켜기() {
+		System.out.println("사과가 나타나면서 전원이 켜졌다.");
+	}
+
+	@Override
+	void 전원끄기() {
+		System.out.println("사과가 나타나면서 전원이 꺼졌다.");
+	}
+
+	@Override
+	void set볼륨(int 볼륜) {
+		this.볼륨 = 볼륨;
+		System.out.println(모델명+"볼륨: "+볼륨);
+	}
+	
+	void 얼굴인식(String 얼굴정보) {
+		if(this.얼굴정보.equals(얼굴정보)) {
+			System.out.println("잠금해제");
+		}else {
+			전원끄기();
+		}
+	}
+
+}
+
+package Main;
+
+public class Samsung extends SmartPhone{
+	
+	String 삼성페이;
+
+	public Samsung(int 볼륨, String 모델명, String 색상, String 삼성페이) {
+		super(볼륨, 모델명, 색상);
+		this.삼성페이 = 삼성페이;
+	}
+
+	@Override
+	void 전원켜기() {
+		System.out.println("삼성가 나타나면서 전원이 켜졌다.");
+	}
+
+	@Override
+	void 전원끄기() {
+		System.out.println("삼성가 나타나면서 전원이 꺼졌다.");
+	}
+
+	@Override
+	void set볼륨(int 볼륜) {
+		this.볼륨 = 볼륨;
+		System.out.println(모델명+"볼륨: "+볼륨);
+	}
+	
+	void 삼성페이(String 삼성페이) {
+		if(this.삼성페이.equals(삼성페이)) {
+			System.out.println("결제되었습니다.");
+		}else {
+			전원끄기();
+		}
+	}
+}
+
+package Main;
+
+public interface Fingerprint {
+	String 지문정보 = "손가락지문";
+	
+	static void 지문인식(SmartPhone 폰,String 지문) {
+		if(지문정보.equals(지문)) {
+			System.out.println("잠금해제");
+		}else {
+			폰.전원끄기();
+		}
+	}
+}
