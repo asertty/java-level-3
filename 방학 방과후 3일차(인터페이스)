@@ -1,0 +1,99 @@
+package Main;
+
+public class Mage extends Hero implements Fire, Wind{
+	int 마나;
+	
+	Mage(String 이름, int 체력, int 공격력) {
+		super(이름, 체력, 공격력);
+		공격력 = 공격력계산()+불공격력+바람공격력;
+		마나 = 30;
+		속성 = "물";
+	}
+	
+	int 공격력계산(){
+		return 공격력 + 5;
+	}
+	
+	@Override
+	void 자기소개() {
+		super.자기소개();
+		System.out.printf("마나: %d 속성: %s \n", 마나, 속성);
+	}
+
+	@Override
+	void 공격(Monster 적) {
+		자기소개();
+		적.자기소개();
+		
+		System.out.printf("%s가 %s에게 공격!\n", 이름, 적.이름);
+		적.체력 -= 공격력;
+		마나 +=15;
+		
+		자기소개();
+		적.자기소개();
+	}
+
+	@Override
+	void 특수공격(Monster 적) {
+		자기소개();
+		적.자기소개();
+		int 특수공격력;
+		
+		if(마나 >= 100) {
+			특수공격력 = 공격력*3;
+			마나 = 0;
+		}else {
+			특수공격력 = 공격력;
+		}
+		
+		if(적.속성.equals("불")) {
+			System.out.printf("불을 끄는 물이 효과가 굉장하다.\n");
+			System.out.printf("%s가 %s에게 특수공격!\n", 이름, 적.이름);
+			적.체력-=(특수공격력*3);
+		}else {
+			System.out.printf("특수공격을 실패하였다.\n");
+		}
+		
+		자기소개();
+		적.자기소개();
+		
+	}
+
+	@Override
+	public void 불쇼() {
+		System.out.println("불쇼");
+		
+	}
+}
+
+package Main;
+
+public interface Fire {
+	// 인터페이스는 상속을 1개 이상을 받을 수 있다.
+	
+	//static final 꼭 가져야 하는 속성이라는 뜻
+	int 불공격력 = 10;
+	
+	//abstract 생략됌
+	static void 불공격(Monster 적){
+		적.체력 = 적.체력 - 불공격력;
+	}
+	
+	void 불쇼();
+}
+
+package Main;
+
+public interface Wind {
+	// 인터페이스는 상속을 1개 이상을 받을 수 있다.
+	
+	//static final 꼭 가져야 하는 속성이라는 뜻
+	int 바람공격력 = 10;
+	
+	//abstract 생략됌
+	static void 불공격(Monster 적){
+		적.체력 = 적.체력 - 바람공격력;
+	}
+	
+	void 불쇼();
+}
